@@ -92,6 +92,9 @@ jobs:
       #  run: git apply ../*.patch
       - name: Build gitlab-runner-helper
         working-directory: gitlab-runner
+        env:
+          GOOS: linux
+          GOARCH: loong64
         run: |
           make helper-bin-linux
       - name: Print binary SHA-256 checksums
