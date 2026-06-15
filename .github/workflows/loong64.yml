@@ -102,4 +102,4 @@ jobs:
         working-directory: gitlab-runner
         run: |
           echo "=== bin ==="
-          file out/*/*
+          file out/binaries/gitlab-runner-helper/*
