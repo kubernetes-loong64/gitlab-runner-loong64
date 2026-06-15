@@ -28,7 +28,7 @@ jobs:
           else
             echo ${{ github.ref_name }}
           fi
-      - name: Extract cli branch
+      - name: Extract gitlab-runner branch
         id: extract
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
@@ -61,7 +61,7 @@ jobs:
         run: |
           apt update
           apt install -y git make golang file
-      - name: Clone cli
+      - name: Clone gitlab-runner
         run: |
           git clone --branch ${{ env.GITLAB_RUNNER_BRANCH }} --depth 1 https://gitlab.com/gitlab-org/gitlab-runner.git gitlab-runner
       - name: ls
@@ -103,7 +103,8 @@ jobs:
         run: |
           echo "=== Build gitlab-runner-helper ==="
           echo "GOOS=$GOOS GOARCH=$GOARCH ARCH_TAG=$ARCH_TAG BASE_IMAGE=$BASE_IMAGE"
-          echo "Target: ${{ env.KUBE_BASE_IMAGE_REGISTRY }}/gitlab-runner-helper:$ARCH_TAG-${{ env.GITLAB_RUNNER_BRANCH }}"
+          IMAGE_REF=${{ env.KUBE_BASE_IMAGE_REGISTRY }}/gitlab-runner-helper:$ARCH_TAG-${{ env.GITLAB_RUNNER_BRANCH }}
+          echo "Target: $IMAGE_REF"
           make helper-bin-linux
           echo "=== Binary output ==="
           find out -type f | xargs ls -lh
@@ -115,10 +116,23 @@ jobs:
               --build-arg TARGETARCH=$GOARCH \
               --build-context binary_dir=out/binaries/gitlab-runner-helper \
               -f dockerfiles/runner-helper/Dockerfile \
-              -t ${{ env.KUBE_BASE_IMAGE_REGISTRY }}/gitlab-runner-helper:$ARCH_TAG-${{ env.GITLAB_RUNNER_BRANCH }} \
+              -t $IMAGE_REF \
               .
           echo "=== Docker images after build ==="
           docker images
+          echo "=== Saving $IMAGE_REF ==="
+          docker save -o gitlab-runner-helper-loong64.tar $IMAGE_REF
+          echo "=== Image tarball ==="
+          ls -lha gitlab-runner-helper-loong64.tar
+          echo "=== Manifest ==="
+          echo "--- repositories ---"
+          tar -xOf gitlab-runner-helper-loong64.tar repositories
+          echo "--- manifest.json ---"
+          tar -xOf gitlab-runner-helper-loong64.tar manifest.json | jq
+          echo "--- config ---"
+          tar -xOf gitlab-runner-helper-loong64.tar $(tar -xOf gitlab-runner-helper-loong64.tar manifest.json | jq -r '.[0].Config') | jq
+          echo "--- os, architecture ---"
+          tar -xOf gitlab-runner-helper-loong64.tar $(tar -xOf gitlab-runner-helper-loong64.tar manifest.json | jq -r '.[0].Config') | jq '{os, architecture}'
       - name: Print binary SHA-256 checksums
         working-directory: gitlab-runner
         run: |
@@ -128,3 +142,13 @@ jobs:
         run: |
           echo "=== bin ==="
           file out/binaries/gitlab-runner-helper/*
+      - name: Upload gitlab-runner-helper binaries
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: gitlab-runner-helper-loong64-binaries
+          path: gitlab-runner/out/binaries/gitlab-runner-helper/gitlab-runner-helper.linux-loong64
+      - name: Upload gitlab-runner-helper image
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: gitlab-runner-helper-loong64-images
+          path: gitlab-runner/gitlab-runner-helper-loong64.tar
