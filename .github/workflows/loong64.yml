@@ -9,6 +9,9 @@ on:
     branches:
       - loong64-*
 
+env:
+  KUBE_BASE_IMAGE_REGISTRY: ${{ vars.KUBE_BASE_IMAGE_REGISTRY || 'kubernetesloong64' }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -95,8 +98,27 @@ jobs:
         env:
           GOOS: linux
           GOARCH: loong64
+          ARCH_TAG: loongarch64
+          BASE_IMAGE: lcr.loongnix.cn/debian:14
         run: |
+          echo "=== Build gitlab-runner-helper ==="
+          echo "GOOS=$GOOS GOARCH=$GOARCH ARCH_TAG=$ARCH_TAG BASE_IMAGE=$BASE_IMAGE"
+          echo "Target: ${{ env.KUBE_BASE_IMAGE_REGISTRY }}/gitlab-runner-helper:$ARCH_TAG-${{ env.GITLAB_RUNNER_BRANCH }}"
           make helper-bin-linux
+          echo "=== Binary output ==="
+          find out -type f | xargs ls -lh
+          echo "=== Docker images before build ==="
+          docker images
+          docker build \
+              --build-arg BASE_IMAGE=$BASE_IMAGE \
+              --build-arg TARGETOS=$GOOS \
+              --build-arg TARGETARCH=$GOARCH \
+              --build-context binary_dir=out/binaries/gitlab-runner-helper \
+              -f dockerfiles/runner-helper/Dockerfile \
+              -t ${{ env.KUBE_BASE_IMAGE_REGISTRY }}/gitlab-runner-helper:$ARCH_TAG-${{ env.GITLAB_RUNNER_BRANCH }} \
+              .
+          echo "=== Docker images after build ==="
+          docker images
       - name: Print binary SHA-256 checksums
         working-directory: gitlab-runner
         run: |
