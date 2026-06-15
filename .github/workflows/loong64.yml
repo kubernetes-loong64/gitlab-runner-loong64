@@ -60,7 +60,7 @@ jobs:
       - name: Install build tools
         run: |
           apt update
-          apt install -y git make golang file
+          apt install -y git make golang file jq
       - name: Clone gitlab-runner
         run: |
           git clone --branch ${{ env.GITLAB_RUNNER_BRANCH }} --depth 1 https://gitlab.com/gitlab-org/gitlab-runner.git gitlab-runner
