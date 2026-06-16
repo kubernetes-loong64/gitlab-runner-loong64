@@ -99,12 +99,14 @@ jobs:
           GOOS: linux
           GOARCH: loong64
           ARCH_TAG: loongarch64
-          BASE_IMAGE: lcr.loongnix.cn/debian:14
+          BASE_IMAGE: kubernetesloong64/runner-tools-base-images-loong64:v0.0.43-debian
         run: |
           echo "=== Build gitlab-runner-helper ==="
           echo "GOOS=$GOOS GOARCH=$GOARCH ARCH_TAG=$ARCH_TAG BASE_IMAGE=$BASE_IMAGE"
           IMAGE_REF=${{ env.KUBE_BASE_IMAGE_REGISTRY }}/gitlab-runner-helper:$ARCH_TAG-${{ env.GITLAB_RUNNER_BRANCH }}
           echo "Target: $IMAGE_REF"
+          echo "IMAGE_REF=$IMAGE_REF"
+          echo "IMAGE_REF=$IMAGE_REF" >> ${GITHUB_ENV}
           make helper-bin-linux
           echo "=== Binary output ==="
           find out -type f | xargs ls -lh
@@ -152,3 +154,10 @@ jobs:
         with:
           name: gitlab-runner-helper-loong64-images
           path: gitlab-runner/gitlab-runner-helper-loong64.tar
+      - name: Login to Docker
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
+        with:
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push image
+        run: docker push $IMAGE_REF
