@@ -1,4 +1,24 @@
+## LoongArch GitLab Runner
+
 <p align="center"><a href="README.md">English</a> | <a href="README-zh.md">中文</a></p>
+
+## Overview
+
+This project ports GitLab Runner to the **loong64** (LoongArch) architecture. It is a submodule of the [kubernetes-loong64](https://github.com/kubernetes-loong64) project.
+
+The upstream GitLab Runner project ([gitlab-org/gitlab-runner](https://gitlab.com/gitlab-org/gitlab-runner)) targets `linux/amd64`. This repository patches the upstream to produce `linux/loong64` binaries, using **Debian 14** (from `lcr.loongnix.cn`) as the base.
+
+[![kubernetesloong64/gitlab-runner-helper](https://img.shields.io/docker/v/kubernetesloong64/gitlab-runner-helper?logo=docker&label=kubernetesloong64%2Fgitlab-runner-helper)](https://hub.docker.com/r/kubernetesloong64/gitlab-runner-helper/tags)
+
+## Branches
+
+| Branch            | Description                                                              |
+|-------------------|--------------------------------------------------------------------------|
+| `main`            | Project documentation, license, and shared configuration                 |
+| `loong64-v19.0.1` | Patched build for upstream GitLab Runner v19.0.1 with loong64 support    |
+
+New loong64 release branches follow the naming convention `loong64-<upstream-version>`.
+
 
 ## Verifying releases
 
