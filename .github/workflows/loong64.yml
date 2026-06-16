@@ -104,9 +104,13 @@ jobs:
           echo "=== Build gitlab-runner-helper ==="
           echo "GOOS=$GOOS GOARCH=$GOARCH ARCH_TAG=$ARCH_TAG BASE_IMAGE=$BASE_IMAGE"
           IMAGE_REF=${{ env.KUBE_BASE_IMAGE_REGISTRY }}/gitlab-runner-helper:$ARCH_TAG-${{ env.GITLAB_RUNNER_BRANCH }}
+          IMAGE_REF_LOONG64=${{ env.KUBE_BASE_IMAGE_REGISTRY }}/gitlab-runner-helper-loong64:$ARCH_TAG-${{ env.GITLAB_RUNNER_BRANCH }}
           echo "Target: $IMAGE_REF"
           echo "IMAGE_REF=$IMAGE_REF"
           echo "IMAGE_REF=$IMAGE_REF" >> ${GITHUB_ENV}
+          echo "Target: $IMAGE_REF_LOONG64"
+          echo "IMAGE_REF_LOONG64=$IMAGE_REF_LOONG64"
+          echo "IMAGE_REF_LOONG64=$IMAGE_REF_LOONG64" >> ${GITHUB_ENV}
           make helper-bin-linux
           echo "=== Binary output ==="
           find out -type f | xargs ls -lh
@@ -119,6 +123,7 @@ jobs:
               --build-context binary_dir=out/binaries/gitlab-runner-helper \
               -f dockerfiles/runner-helper/Dockerfile \
               -t $IMAGE_REF \
+              -t $IMAGE_REF_LOONG64 \
               .
           echo "=== Docker images after build ==="
           docker images
@@ -160,4 +165,6 @@ jobs:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push image
-        run: docker push $IMAGE_REF
+        run: |
+          docker push $IMAGE_REF
+          docker push $IMAGE_REF_LOONG64
