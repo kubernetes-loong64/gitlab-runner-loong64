@@ -4,9 +4,11 @@
 
 ## Overview
 
-This project ports GitLab Runner to the **loong64** (LoongArch) architecture. It is a submodule of the [kubernetes-loong64](https://github.com/kubernetes-loong64) project.
+This project builds the **gitlab-runner-helper** Docker image for the **loong64** (LoongArch) architecture. It is a submodule of the [kubernetes-loong64](https://github.com/kubernetes-loong64) project.
 
-The upstream GitLab Runner project ([gitlab-org/gitlab-runner](https://gitlab.com/gitlab-org/gitlab-runner)) targets `linux/amd64`. This repository patches the upstream to produce `linux/loong64` binaries, using **Debian 14** (from `lcr.loongnix.cn`) as the base.
+The upstream GitLab Runner project ([gitlab-org/gitlab-runner](https://gitlab.com/gitlab-org/gitlab-runner)) provides the `gitlab-runner-helper` image for `linux/amd64`. This repository patches the upstream to produce the `linux/loong64` **gitlab-runner-helper** Docker image, using **Debian 14** (from `lcr.loongnix.cn`) as the base.
+
+> **Note:** This project does **not** build GitLab Runner binaries, RPM packages, or DEB packages. It focuses solely on the `gitlab-runner-helper` Docker image, which is used by the GitLab Runner **Docker executor** and **Kubernetes executor** to run CI/CD jobs on LoongArch.
 
 [![kubernetesloong64/gitlab-runner-helper](https://img.shields.io/docker/v/kubernetesloong64/gitlab-runner-helper?logo=docker&label=kubernetesloong64%2Fgitlab-runner-helper)](https://hub.docker.com/r/kubernetesloong64/gitlab-runner-helper/tags)
 

@@ -4,9 +4,11 @@
 
 ## 概述
 
-本项目将 GitLab Runner 移植到 **loong64**（龙芯架构）。它是 [kubernetes-loong64](https://github.com/kubernetes-loong64) 项目的子模块。
+本项目为 **loong64**（龙芯架构）构建 **gitlab-runner-helper** Docker 镜像。它是 [kubernetes-loong64](https://github.com/kubernetes-loong64) 项目的子模块。
 
-上游 GitLab Runner 项目（[gitlab-org/gitlab-runner](https://gitlab.com/gitlab-org/gitlab-runner)）面向 `linux/amd64`。本仓库通过补丁将上游适配为 `linux/loong64` 二进制文件，使用 **Debian 14**（来自 `lcr.loongnix.cn`）作为基础镜像。
+上游 GitLab Runner 项目（[gitlab-org/gitlab-runner](https://gitlab.com/gitlab-org/gitlab-runner)）提供面向 `linux/amd64` 的 `gitlab-runner-helper` 镜像。本仓库通过补丁将上游适配为 `linux/loong64` 的 **gitlab-runner-helper** Docker 镜像，使用 **Debian 14**（来自 `lcr.loongnix.cn`）作为基础镜像。
+
+> **注意：** 本项目**不**构建 GitLab Runner 二进制文件、RPM 包或 DEB 包。它仅专注于 `gitlab-runner-helper` Docker 镜像，该镜像供 GitLab Runner **Docker 执行器**和 **Kubernetes 执行器**在 LoongArch 上运行 CI/CD 作业时使用。
 
 [![kubernetesloong64/gitlab-runner-helper](https://img.shields.io/docker/v/kubernetesloong64/gitlab-runner-helper?logo=docker&label=kubernetesloong64%2Fgitlab-runner-helper)](https://hub.docker.com/r/kubernetesloong64/gitlab-runner-helper/tags)
 
