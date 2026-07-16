@@ -99,7 +99,7 @@ jobs:
           GOOS: linux
           GOARCH: loong64
           ARCH_TAG: loongarch64
-          BASE_IMAGE: kubernetesloong64/runner-tools-base-images-loong64:v0.0.43-debian
+          BASE_IMAGE: kubernetesloong64/runner-tools-base-images-loong64:v0.0.47-debian
         run: |
           echo "=== Build gitlab-runner-helper ==="
           echo "GOOS=$GOOS GOARCH=$GOARCH ARCH_TAG=$ARCH_TAG BASE_IMAGE=$BASE_IMAGE"
