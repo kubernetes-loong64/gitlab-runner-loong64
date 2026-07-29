@@ -10,7 +10,14 @@
 
 > **注意：** 本项目**不**构建 GitLab Runner 二进制文件、RPM 包或 DEB 包。它仅专注于 `gitlab-runner-helper` Docker 镜像，该镜像供 GitLab Runner **Docker 执行器**和 **Kubernetes 执行器**在 LoongArch 上运行 CI/CD 作业时使用。
 
-[![kubernetesloong64/gitlab-runner-helper](https://img.shields.io/docker/v/kubernetesloong64/gitlab-runner-helper?logo=docker&label=kubernetesloong64%2Fgitlab-runner-helper)](https://hub.docker.com/r/kubernetesloong64/gitlab-runner-helper/tags)
+[![kubernetesloong64/gitlab-runner-helper](https://img.shields.io/docker/v/kubernetesloong64/gitlab-runner-helper?sort=semver&arch=loong64&logo=docker&label=kubernetesloong64%2Fgitlab-runner-helper)](https://hub.docker.com/r/kubernetesloong64/gitlab-runner-helper/tags)
+
+## Docker 镜像仓库
+
+| 仓库           | 镜像                                                                      |
+|----------------|---------------------------------------------------------------------------|
+| Docker Hub     | `kubernetesloong64/gitlab-runner-helper`                                  |
+| 阿里云（中国） | `registry.cn-qingdao.aliyuncs.com/kubernetesloong64/gitlab-runner-helper` |
 
 ## 分支
 

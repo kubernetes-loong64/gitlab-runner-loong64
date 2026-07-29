@@ -10,7 +10,14 @@ The upstream GitLab Runner project ([gitlab-org/gitlab-runner](https://gitlab.co
 
 > **Note:** This project does **not** build GitLab Runner binaries, RPM packages, or DEB packages. It focuses solely on the `gitlab-runner-helper` Docker image, which is used by the GitLab Runner **Docker executor** and **Kubernetes executor** to run CI/CD jobs on LoongArch.
 
-[![kubernetesloong64/gitlab-runner-helper](https://img.shields.io/docker/v/kubernetesloong64/gitlab-runner-helper?logo=docker&label=kubernetesloong64%2Fgitlab-runner-helper)](https://hub.docker.com/r/kubernetesloong64/gitlab-runner-helper/tags)
+[![kubernetesloong64/gitlab-runner-helper](https://img.shields.io/docker/v/kubernetesloong64/gitlab-runner-helper?sort=semver&arch=loong64&logo=docker&label=kubernetesloong64%2Fgitlab-runner-helper)](https://hub.docker.com/r/kubernetesloong64/gitlab-runner-helper/tags)
+
+## Docker Registry
+
+| Registry              | Image                                                                     |
+|-----------------------|---------------------------------------------------------------------------|
+| Docker Hub            | `kubernetesloong64/gitlab-runner-helper`                                  |
+| Alibaba Cloud (China) | `registry.cn-qingdao.aliyuncs.com/kubernetesloong64/gitlab-runner-helper` |
 
 ## Branches
 
