@@ -24,7 +24,7 @@ The upstream GitLab Runner project ([gitlab-org/gitlab-runner](https://gitlab.co
 | Branch            | Description                                                              |
 |-------------------|--------------------------------------------------------------------------|
 | `main`            | Project documentation, license, and shared configuration                 |
-| `loong64-v19.3.2` | Patched build for upstream GitLab Runner v19.3.2 with loong64 support    |
+| `loong64-v19.4.0` | Patched build for upstream GitLab Runner v19.4.0 with loong64 support    |
 
 New loong64 release branches follow the naming convention `loong64-<upstream-version>`.
 
